@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+</head>
+<body>
+<div th:switch="${articles}">
+    <h2 th:case="null">No articles found!</h2>
+    <div th:case="*">
+        <h2>Articles</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>UserId</th>
+                <th>Name</th>
+                <th>Text</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="article : ${articles}">
+                <td th:text="${article.id}"></td>
+                <td th:text="${article.userId}"></td>
+                <td th:text="${article.name}"></td>
+                <td th:text="${article.text}"></td>
+                <td><a th:href="@{article-update/{id}(id=${user.id})}">Edit</a></td>
+                <td><a th:href="@{article-delete/{id}(id=${user.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/article-create">Create article</a></p>
+</body>
+</html>

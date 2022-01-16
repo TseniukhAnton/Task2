@@ -1,5 +1,7 @@
 package com.softserveacademy.task2.service;
 
+import com.softserveacademy.task2.converters.UserConverter;
+import com.softserveacademy.task2.dto.UserDto;
 import com.softserveacademy.task2.model.User;
 import com.softserveacademy.task2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +12,31 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserConverter userConverter;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserConverter userConverter) {
         this.userRepository = userRepository;
+        this.userConverter = userConverter;
     }
 
-    public User findById(Long id) {
-        return userRepository.getOne(id);
+    public UserDto findById(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        UserConverter converter = new UserConverter();
+        assert user != null;
+        return converter.convert(user);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+
+    public List<UserDto> findAll() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(userConverter::convert).toList();
     }
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public UserDto saveUser(User user) {
+        User user1 = userRepository.save(user);
+        return userConverter.convert(user1);
     }
 
     public void deleteById(Long id) {

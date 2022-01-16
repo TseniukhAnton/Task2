@@ -1,8 +1,7 @@
 package com.softserveacademy.task2.model;
 
-import liquibase.pro.packaged.d;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -10,8 +9,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator (name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column (name = "id", updatable = false, nullable = false)
     private Long id;
     @Column(name = "email")
     private String email;

@@ -2,6 +2,7 @@ package com.softserveacademy.task2.model;
 
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -11,7 +12,9 @@ import javax.persistence.*;
 public class Article {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column (name = "id", updatable = false, nullable = false)
     private Long id;
     @Column(name = "userId")
     private Long userId;
