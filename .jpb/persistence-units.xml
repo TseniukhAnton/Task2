@@ -2,7 +2,7 @@
 <project version="4">
   <component name="PersistenceUnitSettings">
     <persistence-units>
-      <persistence-unit name="Default">
+      <persistence-unit name="Default" defaultIncludeChangeLogFile="src/main/db/changelog/master.xml">
         <packages>
           <package value="com.softserveacademy.task2" />
         </packages>

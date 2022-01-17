@@ -16,7 +16,7 @@ public class Article {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column (name = "id", updatable = false, nullable = false)
     private Long id;
-    @Column(name = "userId")
+    @Column(name = "user_Id")
     private Long userId;
     @Column(name = "name")
     private String name;
