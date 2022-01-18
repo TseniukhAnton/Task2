@@ -16,7 +16,7 @@ public class ArticleConverter {
         dto.setText(article.getText());
         UserService userService = null;
         assert false;
-        UserDto userDto = userService.findById(article.getUserId());
+        UserDto userDto = userService.findById(article.getUser().getId());
         dto.setUserName(userDto.getName());
         return dto;
     }

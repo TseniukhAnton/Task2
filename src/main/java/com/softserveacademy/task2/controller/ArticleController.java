@@ -1,7 +1,6 @@
 package com.softserveacademy.task2.controller;
 
 import com.softserveacademy.task2.dto.ArticleDto;
-import com.softserveacademy.task2.dto.UserDto;
 import com.softserveacademy.task2.model.Article;
 import com.softserveacademy.task2.model.User;
 import com.softserveacademy.task2.service.ArticleService;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ArticleController {
@@ -41,13 +41,13 @@ public class ArticleController {
     }
 
     @GetMapping("/article-delete/{id}")
-    public String deleteArticle(@PathVariable("id") Long id){
+    public String deleteArticle(@PathVariable("id") UUID id){
         articleService.deleteById(id);
         return "redirect:/articles";
     }
 
     @GetMapping("/article-update/{id}")
-    public String updateArticleForm(@PathVariable("id") Long id, Model model){
+    public String updateArticleForm(@PathVariable("id") UUID id, Model model){
         ArticleDto article = articleService.findById(id);
         model.addAttribute("user", article);
         return "article-update";

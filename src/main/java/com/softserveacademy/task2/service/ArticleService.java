@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ArticleService {
@@ -21,7 +22,7 @@ public class ArticleService {
         this.articleConverter = articleConverter;
     }
 
-    public ArticleDto findById(Long id) {
+    public ArticleDto findById(UUID id) {
         Article article = articleRepository.findById(id).orElse(null);
         ArticleConverter converter = new ArticleConverter();
         assert article != null;
@@ -38,7 +39,7 @@ public class ArticleService {
         return articleConverter.convert(article1);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(UUID id) {
         articleRepository.deleteById(id);
     }
 }

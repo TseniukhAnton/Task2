@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -41,13 +42,13 @@ public class UserController {
     }
 
     @GetMapping("/user-delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id){
+    public String deleteUser(@PathVariable("id") UUID id){
         userService.deleteById(id);
         return "redirect:/users";
     }
 
     @GetMapping("/user-update/{id}")
-    public String updateUserForm(@PathVariable("id") Long id, Model model){
+    public String updateUserForm(@PathVariable("id") UUID id, Model model){
         UserDto user = userService.findById(id);
         model.addAttribute("user", user);
         return "user-update";
