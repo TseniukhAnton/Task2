@@ -33,7 +33,7 @@ services:
       - app
       - consul
     ports:
-      - 80:80
+      - "80:80"
 
 networks:
   app:
