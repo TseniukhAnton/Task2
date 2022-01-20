@@ -17,12 +17,14 @@ public class Article {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column (name = "id", updatable = false, nullable = false, columnDefinition = "char")
     private UUID id;
+    @Column(name = "userid", insertable = false, updatable = false )
+    private String userid;
     @Column(name = "name")
     private String name;
     @Column(name = "text")
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", columnDefinition = "char")
+    @JoinColumn(name = "userid", columnDefinition = "char")
     private User user;
 }

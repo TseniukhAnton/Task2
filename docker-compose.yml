@@ -1,42 +1,38 @@
-version: '3.1'
+version: '3.8'
 
 services:
-  blue:
-    container_name: blue
-    image: app:blue
-    restart: always
-    environment:
-      - SERVICE_80_NAME=blue
-      - SERVICE_80_TAGS=backends
-    networks:
-      - app
-      - consul
+  database:
+    image: mysql:5.7
 
-  green:
-    container_name: green
-    image: app:green
     environment:
-      - SERVICE_80_NAME=green
-      - SERVICE_80_TAGS=backends
-    networks:
-      - app
-      - consul
-
-  nginx:
-    container_name: nginx
-    build: ./nginx/
-    restart: always
-    environment:
-      - SERVICE_NAME=nginx
-      - SERVICE_TAGS=nginx
-    networks:
-      - app
-      - consul
+      MYSQL_DATABASE: springboottask
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: 12345
     ports:
-      - "80:80"
+      - "0:3306"
+    volumes:
+      - my-db:/var/lib/mysql
 
-networks:
-  app:
-  consul:
-    external:
-      name: consul
+  bootdocker:
+    depends_on:
+      - database
+    image: bootdocker:1
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8080:8080"
+#    entrypoint: ["java", "org.springframework.boot.loader.JarLauncher"]
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/springboottask
+      SPRING_DATASOURCE_USERNAME: test
+      SPRING_DATASOURCE_PASSWORD: test
+    volumes:
+      - /data/bootdocker
+    stdin_open: true
+    tty: true
+
+volumes:
+  my-db:
