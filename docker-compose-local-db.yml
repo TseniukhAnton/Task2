@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'springboottask'
-      MYSQL_ROOT_PASSWORD: "12345"
+      MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3306:3306'
     volumes:

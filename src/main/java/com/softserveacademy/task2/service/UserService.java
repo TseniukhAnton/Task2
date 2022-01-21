@@ -29,7 +29,6 @@ public class UserService {
         return converter.convert(user);
     }
 
-
     public List<UserDto> findAll() {
         List<User> users = userRepository.findAll();
         return users.stream().map(userConverter::convert).toList();
