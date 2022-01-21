@@ -6,11 +6,11 @@ services:
 
     environment:
       MYSQL_DATABASE: springboottask
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
+#      MYSQL_USER: test
+#      MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: 12345
     ports:
-      - "0:3306"
+      - "3306:3306"
     volumes:
       - my-db:/var/lib/mysql
 
@@ -26,9 +26,9 @@ services:
       - "8080:8080"
 #    entrypoint: ["java", "org.springframework.boot.loader.JarLauncher"]
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/springboottask
-      SPRING_DATASOURCE_USERNAME: test
-      SPRING_DATASOURCE_PASSWORD: test
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/springboottask
+#      SPRING_DATASOURCE_USERNAME: test
+#      SPRING_DATASOURCE_PASSWORD: test
     volumes:
       - /data/bootdocker
     stdin_open: true

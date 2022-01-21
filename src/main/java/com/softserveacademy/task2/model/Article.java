@@ -11,20 +11,17 @@ import java.util.UUID;
 @Entity
 @Table(name = "article")
 public class Article {
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column (name = "id", updatable = false, nullable = false, columnDefinition = "char")
     private UUID id;
-    @Column(name = "userid", insertable = false, updatable = false )
-    private String userid;
     @Column(name = "name")
     private String name;
     @Column(name = "text")
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userid", columnDefinition = "char")
+    @JoinColumn(name = "user_id", columnDefinition = "char")
     private User user;
 }
