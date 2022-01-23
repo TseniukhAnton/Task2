@@ -31,25 +31,6 @@ public class SecurityUser implements UserDetails{
         return name;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return isActive;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isActive;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isActive;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive;
-    }
 
     public static UserDetails fromUser(User user) {
         return new org.springframework.security.core.userdetails.User(
