@@ -3,7 +3,7 @@ package com.softserveacademy.task2.controller;
 import com.softserveacademy.task2.dto.ArticleDto;
 import com.softserveacademy.task2.model.Article;
 import com.softserveacademy.task2.model.User;
-import com.softserveacademy.task2.service.ArticleService;
+import com.softserveacademy.task2.service.impl.ArticleServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +16,9 @@ import java.util.UUID;
 @Controller
 public class ArticleController {
 
-    private final ArticleService articleService;
+    private final ArticleServiceImpl articleService;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleServiceImpl articleService) {
         this.articleService = articleService;
     }
 
