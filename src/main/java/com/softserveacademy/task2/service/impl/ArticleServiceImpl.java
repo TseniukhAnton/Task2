@@ -1,45 +1,47 @@
 package com.softserveacademy.task2.service.impl;
 
-import com.softserveacademy.task2.converters.ArticleConverter;
 import com.softserveacademy.task2.dto.ArticleDto;
-import com.softserveacademy.task2.dto.UserDto;
 import com.softserveacademy.task2.model.Article;
+import com.softserveacademy.task2.model.Status;
 import com.softserveacademy.task2.model.User;
 import com.softserveacademy.task2.repository.ArticleRepository;
 import com.softserveacademy.task2.service.ArticleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final ArticleConverter articleConverter;
 
-    @Autowired
-    public ArticleServiceImpl(ArticleRepository articleRepository, ArticleConverter articleConverter) {
-        this.articleRepository = articleRepository;
-        this.articleConverter = articleConverter;
+    @Override
+    public Article register(Article article) {
+        article.setName(article.getName());
+        article.setText(article.getText());
+        article.setUser(article.getUser());
+
+        Article registeredArticle = articleRepository.save(article);
+        log.info("IN register - user: {} successfully registered", registeredArticle);
+
+        return registeredArticle;
     }
 
-    public ArticleDto findById(UUID id) {
-        Article article = articleRepository.findById(id).orElse(null);
-        ArticleConverter converter = new ArticleConverter();
-        assert article != null;
-        return converter.convert(article);
+    public Article findById(UUID id) {
+        return articleRepository.findById(id).orElse(null);
     }
 
-    public List<ArticleDto> findAll() {
-        List<Article> articles = articleRepository.findAll();
-        return articles.stream().map(articleConverter::convert).toList();
+    public List<Article> findAll() {
+        return articleRepository.findAll();
     }
 
-    public ArticleDto saveArticle(Article article) {
-        Article article1 = articleRepository.saveAndFlush(article);
-        return articleConverter.convert(article1);
+    public Article saveArticle(Article article) {
+        return articleRepository.saveAndFlush(article);
     }
 
     public void deleteById(UUID id) {
@@ -47,8 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleDto getByName(String name) {
-        Article articleByName = articleRepository.findByName(name);
-        return articleConverter.convert(articleByName);
+    public Article getByName(String name) {
+        return articleRepository.findByName(name);
     }
 }

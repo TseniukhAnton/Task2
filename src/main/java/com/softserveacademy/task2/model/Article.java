@@ -1,6 +1,7 @@
 package com.softserveacademy.task2.model;
 
 
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -8,9 +9,10 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Data
+@Builder
 @Entity
 @Table(name = "article")
-public class Article {
+public class Article{
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")

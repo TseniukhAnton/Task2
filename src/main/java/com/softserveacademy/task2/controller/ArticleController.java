@@ -24,7 +24,7 @@ public class ArticleController {
 
     @GetMapping("/article")
     public String findAll(Model model){
-        List<ArticleDto> article = articleService.findAll();
+        List<Article> article = articleService.findAll();
         model.addAttribute("users", article);
         return "article-list";
     }
@@ -48,7 +48,7 @@ public class ArticleController {
 
     @GetMapping("/article-update/{id}")
     public String updateArticleForm(@PathVariable("id") UUID id, Model model){
-        ArticleDto article = articleService.findById(id);
+        Article article = articleService.findById(id);
         model.addAttribute("user", article);
         return "article-update";
     }

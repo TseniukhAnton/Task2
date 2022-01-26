@@ -1,24 +1,61 @@
 package com.softserveacademy.task2.rest;
 
+import com.softserveacademy.task2.dto.AuthenticationRequestDto;
+import com.softserveacademy.task2.model.User;
+import com.softserveacademy.task2.security.jwt.JwtTokenProvider;
+import com.softserveacademy.task2.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping(value = "/api/v1/auth/")
 public class AuthenticationRestControllerV1 {
 
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request){
-        return null;
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    private final UserService userService;
+
+    @Autowired
+    public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userService = userService;
     }
 
-    @PostMapping("/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response){
-        SecurityContextLogoutHandler securityContextLogoutHandler= new SecurityContextLogoutHandler();
-        securityContextLogoutHandler.logout(request, response, null);
+    @PostMapping("login")
+    public ResponseEntity login(@RequestBody AuthenticationRequestDto requestDto) {
+        try {
+            String name = requestDto.getName();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(name, requestDto.getPassword()));
+            User user = userService.getByEmail(name);
+
+            if (user == null) {
+                throw new UsernameNotFoundException("User with username: " + name + " not found");
+            }
+
+            String token = jwtTokenProvider.createToken(name, user.getRoles());
+
+            Map<Object, Object> response = new HashMap<>();
+            response.put("name", name);
+            response.put("token", token);
+
+            return ResponseEntity.ok(response);
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
     }
 }

@@ -7,9 +7,15 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ArticleService {
-    ArticleDto findById(UUID id);
-    List<ArticleDto> findAll();
-    ArticleDto saveArticle(Article article);
-    void deleteById(UUID id)    ;
-    ArticleDto getByName(String name);
+    Article register(Article article);
+
+    Article findById(UUID id);
+
+    List<Article> findAll();
+
+    Article saveArticle(Article article);
+
+    void deleteById(UUID id);
+
+    Article getByName(String name);
 }

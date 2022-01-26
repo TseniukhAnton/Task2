@@ -57,3 +57,81 @@ databaseChangeLog:
                   constraints:
                     foreignKey: true
                     referencedTableName: user
+  - changeSet:
+      id: 002-create-table-roles
+      author: dev
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: status
+                  type: varchar(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    foreignKey: true
+                    referencedTableName: user
+  - changeSet:
+      id: 003-create-table-user_roles
+      author: dev
+      changes:
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: uuid
+#                  constraints:
+#                    foreignKeyName: fk_user_roles_user
+##                     foreignKey: true
+#                     referencedTableName: user
+              - column:
+                  name: role_id
+                  type: BIGINT
+#                  constraints:
+#                    foreignKeyName: fk_user_roles_roles
+#                      foreignKey: true
+#                      referencedTableName: roles
+  - changeSet:
+      id: 004-add-constraints-table-user_roles
+      author: dev
+      changes:
+        - addForegnKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_roles
+            constraintName: fk_user_roles_user
+            referencedColumnNames: id
+            referencedTableName: users
+  - changeSet:
+      id: 005-add-constraints-table-user_roles
+      author: dev
+      changes:
+        - addForegnKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: user_roles
+            constraintName: fk_user_roles_roles
+            referencedColumnNames: id
+            referencedTableName: roles
+  - changeSet:
+      id: 006-drop-column-user_id-from-roles
+      author: dev
+      changes:
+        - alter table roles:
+        - drop column:
+            name: user_id

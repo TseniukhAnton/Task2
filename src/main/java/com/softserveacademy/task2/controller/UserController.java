@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String findAll(Model model){
-        List<UserDto> users;
+        List<User> users;
         users = userService.findAll();
         model.addAttribute("users", users);
         return "user-list";
@@ -54,7 +54,7 @@ public class UserController {
     @GetMapping("/user-update/{id}")
     @PreAuthorize("hasAnyAuthority('developers:read')")
     public String updateUserForm(@PathVariable("id") UUID id, Model model){
-        UserDto user = userService.findById(id);
+        User user = userService.findById(id);
         model.addAttribute("user", user);
         return "user-update";
     }
