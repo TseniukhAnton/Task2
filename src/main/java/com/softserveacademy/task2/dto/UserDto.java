@@ -1,35 +1,41 @@
 package com.softserveacademy.task2.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.softserveacademy.task2.model.User;
-import lombok.Builder;
 import lombok.Data;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
-@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
-    private String id;
+    private UUID id;
     private String email;
     private String name;
     private String password;
 
     public User toEntity() {
-        return User.builder()
-                .id(UUID.fromString(id))
-                .email(email)
-                .name(name)
-                .password(password)
-                .build();
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
+        user.setName(name);
+        user.setPassword(password);
+        return user;
     }
 
     public static UserDto fromEntity(User user) {
-        return Objects.nonNull(user) ?
-                UserDto.builder()
-                        .email(user.getEmail())
-                        .name(user.getName())
-                        .build() : null;
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setEmail(user.getEmail());
+        userDto.setName(user.getName());
+        userDto.setPassword(user.getPassword());
 
+        return userDto;
+    }
+
+    public static List<UserDto> fromListEntity(List<User> list) {
+        return list.stream().map(UserDto::fromEntity).toList();
     }
 }

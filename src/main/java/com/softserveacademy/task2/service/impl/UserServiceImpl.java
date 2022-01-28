@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByName(String name) {
         User result = userRepository.findByName(name);
-        log.info("IN findByUsername - user: {} found by name: {}", result, name);
+       // log.info("IN findByUsername - user: {} found by name: {}", result, name);
         return result;
     }
 
@@ -65,6 +65,10 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public User saveUser(User user) {
+        if (user.getId() == null){
+            user.setId(UUID.randomUUID());
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.saveAndFlush(user);
     }
 

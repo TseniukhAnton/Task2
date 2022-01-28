@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleCityNotFoundException(
+    public ResponseEntity<Object> handleUserNotFoundException(
             UserNotFoundException ex, WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
@@ -31,7 +31,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ArticleNotFoundException.class)
-    public ResponseEntity<Object> handleCityNotFoundException(
+    public ResponseEntity<Object> handleArticleNotFoundException(
             ArticleNotFoundException ex, WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
@@ -42,7 +42,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NoDataFoundException.class)
-    public ResponseEntity<Object> handleNodataFoundException(
+    public ResponseEntity<Object> handleNoDataFoundException(
             NoDataFoundException ex, WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
